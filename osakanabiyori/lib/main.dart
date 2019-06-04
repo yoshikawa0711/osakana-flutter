@@ -1,50 +1,92 @@
 import 'package:flutter/material.dart';
 
-class MyApp extends StatelessWidget {  
+// 同じプロジェクトの別ファイル（hoge.dart）からプログラムを読み込む場合 import 'hoge.dart';
+
+void main() {
+  runApp(
+    new MaterialApp(
+      home: new Home(),
+    )
+  );
+}
+
+class Home extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return new HomeState();
+  }
+}
+
+class HomeState extends State<Home> {
+  int currentIndex = 0;
+
+  // タブバーを構成するページのList（TabItemが仮に置かれている）
+  final List<Widget> tabs = [
+    // このTabItemを作ったプログラムに置き換えることによってページを実現する 
+    TabItem("お魚一覧"),
+    TabItem("レシピ一覧"),
+    TabItem("お気に入り"),
+    TabItem("info"),
+  ];
+
+  void onTabTapped(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
+  // タブバーを実現している部分
   @override
   Widget build(BuildContext context) {
-    Color color =Theme.of(context).primaryColor;
-
-    Column _buildTabBarColumn(Color color, IconData icon, String label) {
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, color: color),
-          Container(
-            margin: const EdgeInsets.only(top: 8),
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: color,
-              ),
-            ),
+    return new Scaffold(
+      body: tabs[currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        onTap: onTabTapped,
+        currentIndex: currentIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.book),
+            title: new Text("お魚一覧"),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.local_dining),
+            title: new Text("レシピ一覧"),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.star_border),
+            title: new Text("お気に入り"),
+          ),
+          BottomNavigationBarItem(  
+            icon: new Icon(
+              Icons.info_outline),
+            title: new Text("info"),          
           ),
         ],
-      );
-    }
-
-    Widget tabBarSection = Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildTabBarColumn(color, Icons.directions_boat, "お魚一覧"),
-          _buildTabBarColumn(color, Icons.local_dining, "レシピ一覧"),
-          _buildTabBarColumn(color, Icons.star_border, "お気に入り"),
-          _buildTabBarColumn(color, Icons.info_outline, "info"),
-        ]
       ),
     );
+  }
+}
 
-    return MaterialApp(
-      title: 'Osakanabiyori',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Osakanabiyori'),
+// そのページの名前をappBarに表示するプログラム（仮に置いているので、最後は消える）
+class TabItem extends StatelessWidget {
+  final String title;
+  const TabItem(this.title) : super();
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Center(
+          child: new Text (
+            this.title, 
+            textAlign: TextAlign.center,
+            style: new TextStyle(
+              color: Colors.black,
+            ),
+          ),
         ),
-        body: tabBarSection,
+        backgroundColor: Colors.white,
       ),
     );
   }
