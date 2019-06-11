@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class RecipeTable extends StatelessWidget{
+  //検索条件の有無を表示する部分
   Widget serchInfoSection = Container(
     padding: const EdgeInsets.all(10),
     width: double.infinity,
@@ -14,6 +15,7 @@ class RecipeTable extends StatelessWidget{
     ),
   );
 
+  //検索窓を実現している部分
   Widget inputSerchWordSection = Container(
     margin: const EdgeInsets.only(bottom: 0),
     width: double.infinity,
@@ -28,7 +30,9 @@ class RecipeTable extends StatelessWidget{
     )
   );
 
+  //レシピひとつひとつを構成してる部分
   Widget recipeSection = Container(
+    margin: const EdgeInsets.only(left: 10),
     child: Row(
       children:[
         Image.asset(
@@ -43,6 +47,7 @@ class RecipeTable extends StatelessWidget{
           child: Text(
             'レシピ名',
             style: TextStyle(
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -56,20 +61,17 @@ class RecipeTable extends StatelessWidget{
       ]
     ),
   );
-
-  Widget buildRecipeTable() {
-    return ListTile(
-      title: recipeSection,
-    );
-  }
   
-  Widget recipeTableSection() {
+  //レシピのListViewを実現してる部分
+  Widget get recipeTableSection {
     return ListView.builder(
       itemBuilder: (context, i) {
-        if (i.isOdd) return Divider();
+        if (i.isOdd) return Divider(
+          height: 2,
+        );
         return recipeSection;
       },
-      itemCount: 10,
+      itemCount: 10 * 2, //recipeSection*2の個数を指定(間に線を引くため)
     );
   }
 
@@ -89,12 +91,13 @@ class RecipeTable extends StatelessWidget{
           ),
           backgroundColor: Colors.white,
         ),
+        //body: recipeTableSection,
+        
         body: Column(
           children: [
             inputSerchWordSection,
             serchInfoSection,
-            //recipeSection,
-            recipeTableSection(), //home:直下に置くべきか...
+            recipeTableSection,
           ],
         ),
       ),

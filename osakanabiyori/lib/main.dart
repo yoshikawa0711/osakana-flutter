@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'recipe_table.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(RecipeTable());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
