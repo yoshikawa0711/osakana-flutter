@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
 
 class RecipeTable extends StatelessWidget{
-  //検索条件の有無を表示する部分
-  Widget serchInfoSection = Container(
-    padding: const EdgeInsets.all(10),
-    width: double.infinity,
-    color: Colors.orange,
-    child: Text('検索条件の指定なし',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        color: Colors.white,
-      ),
-    ),
-  );
-
-  //検索窓を実現している部分
-  Widget inputSerchWordSection = Container(
-    margin: const EdgeInsets.only(bottom: 0),
-    width: double.infinity,
-    child: TextField(
-      decoration: InputDecoration(
-        prefixIcon: Icon(
-          Icons.find_in_page
+  // 検索窓と、検索条件を表示する部分
+  Widget searchSection = Container(
+    child: Column(
+      children: [
+        // 検索窓の作成
+        Container(
+          width: double.infinity,
+          child: TextField(
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                Icons.find_in_page
+              ),
+              border: OutlineInputBorder(),
+              hintText: "レシピ名を入力",
+            ),
+          )
         ),
-        border: OutlineInputBorder(),
-        hintText: "レシピ名を入力",
-      ),
+
+        // 検索条件の表示
+        Container(
+          padding: const EdgeInsets.all(10),
+          width: double.infinity,
+          color: Colors.orange,
+          child: Text('検索条件の指定なし',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
     )
   );
 
@@ -90,16 +96,12 @@ class RecipeTable extends StatelessWidget{
             ),
           ),
           backgroundColor: Colors.white,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(100),
+            child: searchSection,
+          ), 
         ),
-        //body: recipeTableSection,
-        
-        body: Column(
-          children: [
-            inputSerchWordSection,
-            serchInfoSection,
-            recipeTableSection,
-          ],
-        ),
+      body: recipeTableSection,
       ),
     );
   }
